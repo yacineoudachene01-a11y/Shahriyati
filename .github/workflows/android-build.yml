@@ -22,15 +22,18 @@ jobs:
           distribution: temurin
           java-version: '17'
 
-      - name: Configure Android SDK
+      - name: Setup Android SDK
+        uses: android-actions/setup-android@v4
+        with:
+          packages: ''
+
+      - name: Install Android packages
         run: |
-          echo "$ANDROID_HOME/cmdline-tools/latest/bin" >> $GITHUB_PATH
-          yes | sdkmanager --sdk_root="$ANDROID_HOME" --licenses
-          sdkmanager --sdk_root="$ANDROID_HOME" "platforms;android-35" "build-tools;35.0.0"
+          sdkmanager --install "platforms;android-35" "build-tools;35.0.0"
 
       - name: Extract project
         run: |
-          unzip Shahriyati_Android_Project.zip
+          unzip -o Shahriyati_Android_Project.zip
           echo "PROJECT_DIR=$GITHUB_WORKSPACE/Shahriyati_Android_Project" >> $GITHUB_ENV
 
       - name: Setup Gradle
